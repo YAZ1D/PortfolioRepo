@@ -1,0 +1,115 @@
+Make these edits to my Vite + React + Tailwind portfolio:
+
+Horizontal carousel for projects
+
+File: client/src/pages/Portfolio.tsx (or the component that renders the project grid – sometimes named ProjectsSection.tsx or components/ProjectsGrid.tsx).
+
+Replace the projects grid with a horizontally scrollable, snap carousel. Include left/right arrow buttons. Cards should be min-w-[360px] and align in one row, with touch swipe on mobile.
+
+Use this code (replace the whole grid section; adjust imports as needed):
+
+// at the top with other imports
+import { useRef } from "react";
+import ProjectCard from "@/components/ProjectCard";
+import { PROJECTS } from "@/data/projects";
+
+function ProjectsCarousel() {
+  const scroller = useRef<HTMLDivElement>(null);
+  const scrollBy = (dx: number) => {
+    const el = scroller.current;
+    if (!el) return;
+    el.scrollBy({ left: dx, behavior: "smooth" });
+  };
+  return (
+    <div className="relative">
+      {/* arrows */}
+      <button
+        aria-label="Scroll left"
+        onClick={() => scrollBy(-420)}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-2 backdrop-blur"
+      >‹</button>
+      <button
+        aria-label="Scroll right"
+        onClick={() => scrollBy(420)}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-2 backdrop-blur"
+      >›</button>
+
+      {/* scroller */}
+      <div
+        ref={scroller}
+        className="no-scrollbar overflow-x-auto scroll-smooth snap-x snap-mandatory pr-2 pl-1"
+      >
+        <div className="flex gap-6 py-2 flex-nowrap">
+          {PROJECTS.map((p) => (
+            <div key={p.id} className="snap-start shrink-0 min-w-[360px]">
+              <ProjectCard project={p} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Then in the page render, where the old grid was:
+<section className="mx-auto max-w-7xl px-4">
+  <h2 className="text-2xl md:text-3xl font-semibold text-center mb-2">Featured Projects</h2>
+  <p className="text-center text-muted-foreground mb-6">
+    A selection of projects showcasing expertise in automation, visualization, and data analytics
+  </p>
+  <ProjectsCarousel />
+</section>
+
+
+Add link buttons under “View Details” on each card
+
+File: client/src/components/ProjectCard.tsx
+
+After the existing View Details button, render any project.links as small buttons.
+
+Use this diff (replace the card footer/actions block):
+
+// ...inside the card component render, near the bottom:
+<div className="mt-4 flex flex-col gap-2">
+  <button
+    onClick={() => onOpen(project)} // or whatever opens your modal
+    className="inline-flex items-center justify-center rounded-md border border-white/10 bg-white/10 px-3 py-2 text-sm hover:bg-white/20 transition"
+  >
+    View Details
+  </button>
+
+  {project.links && project.links.length > 0 && (
+    <div className="flex flex-wrap gap-2">
+      {project.links.map((l) => (
+        <a
+          key={l.href}
+          href={l.href}
+          target={l.target ?? "_blank"}
+          rel="noopener noreferrer"
+          className="inline-flex items-center rounded-md border border-white/10 bg-transparent px-3 py-1.5 text-xs hover:bg-white/10"
+        >
+          {l.label}
+        </a>
+      ))}
+    </div>
+  )}
+</div>
+
+
+Hide the horizontal scrollbar but keep scrolling
+
+File: client/src/index.css (or global CSS)
+
+Add:
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+
+Accessibility niceties
+
+Ensure each ProjectCard root has aria-label={project.title}.
+
+Keep arrow buttons focusable with aria-label as in the snippet.
+
+After changes, rebuild/run and hard refresh.

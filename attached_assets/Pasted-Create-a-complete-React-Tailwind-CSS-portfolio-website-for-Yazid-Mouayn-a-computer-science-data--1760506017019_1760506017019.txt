@@ -1,0 +1,220 @@
+Create a complete React + Tailwind CSS portfolio website for Yazid Mouayn, a computer science, data science, and applied math graduate.
+
+🎨 Design Requirements:
+
+Dark theme enabled by default
+
+A working Light/Dark theme toggle (🌞 / 🌙 button) that remembers user preference (via localStorage)
+
+Responsive and minimalist dark aesthetic
+
+Smooth transition animation when switching themes
+
+Organized folder structure:
+
+client/
+  public/         (for images)
+  src/
+    components/
+    data/
+    hooks/
+    config/
+    pages/
+
+
+Navbar with links to:
+
+GitHub → https://github.com/YAZ1D
+
+LinkedIn → https://www.linkedin.com/in/yazid-mouayn
+
+Résumé → https://drive.google.com/file/d/1wXgjYP19gkq0Nr2VoAdR2JrqHTH5ur0z/view?usp=drive_link
+
+📂 Pages/Sections:
+
+Hero: name, tagline, and buttons to “View Projects” & “Résumé”
+
+Projects: grid layout with modal details
+
+About: brief professional summary
+
+Contact: email + links
+
+🌑 Theme Configuration
+
+Tailwind config must include darkMode: "class".
+
+Add a hook useTheme.ts:
+
+import { useEffect, useState } from "react";
+export default function useTheme() {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove(theme === "dark" ? "light" : "dark");
+    root.classList.add(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+  return { theme, toggleTheme: () => setTheme(t => (t === "dark" ? "light" : "dark")) };
+}
+
+☀️ Navbar Component
+
+Add a Navbar.tsx with my name + toggle + links:
+
+import { LINKS } from "@/config/links";
+import useTheme from "@/hooks/useTheme";
+import { Sun, Moon } from "lucide-react";
+
+export default function Navbar() {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    <nav className="flex justify-between items-center px-6 py-4 border-b border-gray-700 bg-gray-900 text-gray-100">
+      <h1 className="font-bold text-xl">Yazid Mouayn</h1>
+      <div className="flex gap-4 items-center">
+        <a href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a>
+        <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href={LINKS.resume} target="_blank" rel="noreferrer">Résumé</a>
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded border border-gray-600 hover:bg-gray-800 transition"
+        >
+          {theme === "dark" ? <Sun size={16}/> : <Moon size={16}/>}
+        </button>
+      </div>
+    </nav>
+  );
+}
+
+🔗 Links Config
+
+Create src/config/links.ts:
+
+export const LINKS = {
+  github: "https://github.com/YAZ1D",
+  linkedin: "https://www.linkedin.com/in/yazid-mouayn",
+  resume: "https://drive.google.com/file/d/1wXgjYP19gkq0Nr2VoAdR2JrqHTH5ur0z/view?usp=drive_link",
+  email: "mailto:mouayny@gmail.com",
+};
+
+🗂️ Projects Data
+
+Create src/data/projects.ts and include these 5 projects:
+
+export const PROJECTS = [
+  {
+    id: "transit",
+    title: "Public Transit Automation Internship",
+    tagline: "Automation • Real-time visualization • Analytics integration",
+    bullets: [
+      "Automated GTFS feeds and validated route geometry with Google Earth + GTFS-Builder.",
+      "Built Selenium + HTML kiosk automation that auto-centers and zooms to buses in motion.",
+      "Created real-time 3D Blender visualization using live vehicle-position APIs and OSM/Google 3D tiles.",
+      "Designed Tableau dashboards for ridership trends with route/week filters."
+    ],
+    chips: ["Python","PowerShell","SQL","Selenium","Tableau","Blender","GTFS","APIs"],
+    links: [{ label: "GTFS-Builder Tool", href: "https://www.nationalrtap.org/Technology-Tools/GTFS-Builder" }],
+    media: ["/transit_pipeline.svg","/kiosk1.png","/kiosk3.png","/3Dproject.png","/ridership_table1.png"],
+    modal: {
+      html: `
+        <p><strong>Overview.</strong> Unified automation + visualization stack for public transit ops: data engineering, UI automation, and analytics.</p>
+        <img src="/transit_pipeline.svg" alt="ETL pipeline diagram"/>
+        <p>Python/PowerShell ETL generated GTFS feeds and validated geometry via <em>GTFS-Builder</em> + <em>Google Earth Pro</em>. Scheduled tasks handled daily updates/QC.</p>
+        <h4>Kiosk Automation</h4>
+        <p>HTML + Selenium scripts keep public kiosk maps centered on moving buses; Windows Task Scheduler ensures continual refresh and zoom control.</p>
+        <h4>3D Visualization</h4>
+        <p>Real-time 3D view in Blender using OSM + Google 3D Tiles. Integrated live JSON feeds (<code>vehicle_positions.json</code>) to animate buses along routes.</p>
+        <p><em>All visuals synthetic/anonymized; no proprietary data shown.</em></p>
+      `
+    }
+  },
+  {
+    id: "marketsim",
+    title: "MarketSim Trading App",
+    tagline: "Flutter + Firebase • Android/Web enablement • News integration",
+    bullets: [
+      "Unblocked Android builds and added Web target.",
+      "Configured Firebase and improved build hygiene.",
+      "Integrated news API + branding polish for web."
+    ],
+    chips: ["Flutter","Dart","Firebase","Gradle","REST API"],
+    links: [{ label: "Project Site", href: "https://sites.google.com/view/marketsim" }],
+    media: ["/marketsim_web.jpg","/marketsim_mobile.jpg"],
+    modal: {
+      html: `
+        <p><strong>Role.</strong> Android/Web enablement, Firebase configs, and news API + branding for web version.</p>
+      `
+    }
+  },
+  {
+    id: "tabletop3d",
+    title: "Tabletop 3D Board Generator App",
+    tagline: "JavaFX 3D scene • Camera/interaction • Team engineering",
+    bullets: [
+      "Built JavaFX 3D portion (PerspectiveCamera / Mesh / interaction layer).",
+      "Optimized scene graph and input handling for tabletop experience.",
+      "Collaborated on rendering details and user feedback loop."
+    ],
+    chips: ["Java","JavaFX","3D","FXML","OOP"],
+    links: [{ label: "GitHub (Quetzal)", href: "https://github.com/AugustanaCSC490Spring2024/Quetzal" }],
+    media: ["/quetzal_3d.png"],
+    modal: {
+      html: `
+        <p><strong>Focus.</strong> Camera, lighting, mesh rendering, and interaction for 3D tabletop experiences.</p>
+      `
+    }
+  },
+  {
+    id: "ml-education",
+    title: "Machine Learning Education Survey",
+    tagline: "Regression baselines + tuned KNN • Reproducible pipeline",
+    bullets: [
+      "Survey → feature engineering → model selection.",
+      "Baselines (Linear/Ridge) + tuned KNN; R²/MAE/accuracy evaluation.",
+      "Plots: confusion matrix, actual-vs-predicted."
+    ],
+    chips: ["Python","Pandas","scikit-learn","EDA","Evaluation"],
+    media: ["/ml_confusion.png","/ml_actual_vs_pred.png"],
+    modal: {
+      html: `
+        <p><strong>Approach.</strong> Clean → correlate → baseline regressions → tuned KNN classification (A/B vs C/D/F).</p>
+      `
+    }
+  },
+  {
+    id: "quad-cities",
+    title: "Quad Cities Analytics (ACS)",
+    tagline: "ACS API → GEOID joins → Tableau storytelling",
+    bullets: [
+      "Pipeline: Census API pulls, GEOID construction, tract-level merges.",
+      "Visualized income/education/housing disparities."
+    ],
+    chips: ["Python","Requests","Pandas","Tableau","Geo data"],
+    media: ["/qc_map.png","/qc_bars.png"],
+    modal: {
+      html: `
+        <p><strong>Pipeline.</strong> ACS API → harmonize GEOIDs → tract merges → export to Tableau.</p>
+      `
+    }
+  }
+];
+
+📸 Images
+
+I will later upload my real screenshots to /public/ using these filenames:
+
+transit_pipeline.svg, kiosk1.png, kiosk3.png, 3Dproject.png, ridership_table1.png,
+marketsim_web.jpg, marketsim_mobile.jpg, quetzal_3d.png,
+ml_confusion.png, ml_actual_vs_pred.png, qc_map.png, qc_bars.png
+
+✅ Output Goal
+
+The site should launch directly on Replit’s preview.
+
+Default to dark theme.
+
+Navbar toggle instantly changes between light/dark.
+
+All five project cards display correctly, each opening a modal with details.
+
+My contact info appears at the bottom.

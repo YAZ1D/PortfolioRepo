@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="420">
+  <style>
+    .b{fill:#11141b;stroke:#1f2635;stroke-width:2}
+    .t{font:14px Inter, Arial, sans-serif; fill:#e9efff}
+    .s{font:12px Inter, Arial, sans-serif; fill:#a8b7d4}
+    .arrow{stroke:#2f7dfa;stroke-width:3;marker-end:url(#m)}
+  </style>
+  <defs>
+    <marker id="m" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#2f7dfa"/>
+    </marker>
+  </defs>
+
+  <!-- row of boxes (same geometry as your working transit SVG) -->
+  <rect x="20"  y="60"  width="210" height="90"  rx="12" class="b"/>
+  <text x="40" y="95" class="t">Ethics &amp; IRB</text>
+  <text x="40" y="118" class="s">CITI HSR • consent</text>
+
+  <rect x="260" y="60"  width="230" height="120" rx="12" class="b"/>
+  <text x="280" y="95" class="t">Survey</text>
+  <text x="280" y="118" class="s">Google Forms • n≈75</text>
+
+  <rect x="520" y="60"  width="220" height="120" rx="12" class="b"/>
+  <text x="540" y="95" class="t">Clean &amp; Engineer</text>
+  <text x="540" y="118" class="s">scale • encode • split</text>
+
+  <rect x="760" y="60"  width="180" height="90"  rx="12" class="b"/>
+  <text x="780" y="95" class="t">Models</text>
+  <text x="780" y="118" class="s">Linear/Ridge • KNN</text>
+
+  <rect x="970" y="60"  width="190" height="120" rx="12" class="b"/>
+  <text x="990" y="95" class="t">Results</text>
+  <text x="990" y="118" class="s">MSE 0.86 • Acc 86%</text>
+
+  <!-- arrows (same coordinates as the working one) -->
+  <line x1="230" y1="105" x2="260" y2="105" class="arrow"/>
+  <line x1="490" y1="105" x2="520" y2="105" class="arrow"/>
+  <line x1="740" y1="105" x2="760" y2="105" class="arrow"/>
+  <line x1="940" y1="105" x2="970" y2="105" class="arrow"/>
+
+  <!-- caption -->
+  <text x="40" y="25" class="s">ML Education Study — anonymized, no proprietary data</text>
+</svg>

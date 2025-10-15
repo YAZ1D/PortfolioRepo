@@ -278,8 +278,8 @@ export const PROJECTS: Project[] = [
     ],
     chips: ["Python","Requests","Pandas","Tableau","Geo data"],
     links: [
-      { label: "Full Report (PDF)", href: "https://drive.google.com/file/d/1oC3CNB3iY-UMovu2EDCRpMOzFq5N64t1/view?usp=sharing" },
-      { label: "Presentation Slides", href: "https://drive.google.com/file/d/1W4_ryrtzT9iWBmwNoFjGtUa9svRL1LlG/view?usp=sharing" }
+      { label: "Presentation Slides", href: "https://drive.google.com/file/d/1oC3CNB3iY-UMovu2EDCRpMOzFq5N64t1/view?usp=sharing" },
+      { label: "Full Report (PDF)", href: "https://drive.google.com/file/d/1W4_ryrtzT9iWBmwNoFjGtUa9svRL1LlG/view?usp=sharing" }
     ],
     media: ["/qc.png","/qc2.png","/qc3.png","/qc4.png","/qc5.png","/qc6.png",],
     modal: {

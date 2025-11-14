@@ -1,12 +1,14 @@
 // client/src/components/Projects.tsx
 import { useState, useRef, useEffect } from "react";
+import { useLocation } from "wouter";
 import { PROJECTS } from "@/data/projects";
 import ProjectCard from "./ProjectCard";
-import ProjectModal from "./ProjectModal";
 import type { Project } from "@/data/projects";
 
 export default function Projects() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  // Wouter navigation hook
+  const [, navigate] = useLocation();
+
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
 
@@ -67,6 +69,11 @@ export default function Projects() {
     return () => el.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // When a project is opened from a card, navigate to /project/:id
+  const handleOpenProject = (project: Project) => {
+    navigate(`/project/${project.id}`);
+  };
+
   return (
     <section id="projects" className="py-20 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
@@ -125,20 +132,16 @@ export default function Projects() {
                   className="snap-start shrink-0 min-w-[360px]"
                   ref={idx === 0 ? firstCardRef : undefined}
                 >
-                  <ProjectCard project={project} onOpen={setSelectedProject} />
+                  <ProjectCard
+                    project={project}
+                    onOpen={handleOpenProject}
+                  />
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
-
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
     </section>
   );
 }

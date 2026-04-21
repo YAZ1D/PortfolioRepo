@@ -16,7 +16,7 @@ export default function Home() {
       </main>
       <footer className="border-t border-border py-8">
         <div className="max-w-6xl mx-auto px-6 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Yazid Mouayn. All rights reserved.</p>
+          <p>{"\u00a9 2026 Yazid Mouayn."}</p>
         </div>
       </footer>
     </div>

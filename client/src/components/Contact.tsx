@@ -11,8 +11,9 @@ export default function Contact() {
         </h2>
         
         <p className="text-lg text-muted-foreground mb-12">
-          I'm always open to discussing new opportunities, collaborations, or just connecting.
-          Feel free to reach out!
+          Open to data, reporting, automation, and systems-focused opportunities.
+          If you are hiring, collaborating, or want to discuss a practical
+          build, reach out by email or connect through LinkedIn and GitHub.
         </p>
         
         <div className="space-y-6">
